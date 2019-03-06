@@ -8,7 +8,7 @@ var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStree
 mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicnlhbmptaXRjaCIsImEiOiJjamhhdDBjaXgwcmZlMzBxZ2t1cnZ4bnFnIn0.4tXv0Yvk06rDbYp7ZLSdAw';
 
 var street   = L.tileLayer(mbUrl, {id: 'mapbox.streets', maxZoom:18, attribution: mbAttr}),
-satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite', maxZoom:18, attribution: mbAttr});
+satellite  = L.tileLayer(mbUrl, {id: 'mapbox.streets-satellite', maxZoom:18, attribution: mbAttr});
 
 var map = L.map('map', {
 	layers:[street]}).fitWorld();
@@ -30,16 +30,10 @@ function onLocationFound(e) {
 	var latlong = e.latlng
 
 	L.marker(e.latlng).addTo(map)
-	.bindPopup("You are within " + radius + "m of this point.<br>" + latlong).openPopup();
+	.bindPopup("You are within " + radius + "m of this point.<br>" + latlong).Popup();
 
-	L.circle(e.latlng, radius).addTo(map);
+	//L.circle(e.latlng, radius).addTo(map);
 
-	if (radius < 30) {
-		L.circle(e.latlng, radius, {color: 'green'}).addTo(map);
-	}
-	else{
-		L.circle(e.latlng, radius, {color: 'red'}).addTo(map);
-	}
 }
 
 function onLocationError(e) {
