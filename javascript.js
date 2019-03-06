@@ -1,38 +1,27 @@
-window.onload = function(){
+/* window.onload = function(){
 	alert('If you give it permission, this web page will access to your location in order to demonstrate how device sensors can interact with web maps.');
-}
+} */
 
 var mbAttr = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
 '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
 'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoicnlhbmptaXRjaCIsImEiOiJjamhhdDBjaXgwcmZlMzBxZ2t1cnZ4bnFnIn0.4tXv0Yvk06rDbYp7ZLSdAw';
 
-var light   = L.tileLayer(mbUrl, {id: 'mapbox.light', maxZoom:18, attribution: mbAttr}),
-dark  = L.tileLayer(mbUrl, {id: 'mapbox.dark', maxZoom:18, attribution: mbAttr});
+var street   = L.tileLayer(mbUrl, {id: 'mapbox.streets', maxZoom:18, attribution: mbAttr}),
+satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite', maxZoom:18, attribution: mbAttr});
 
 var map = L.map('map', {
-	layers:[light]}).fitWorld();
+	layers:[street]}).fitWorld();
 
 var baseLayers = {
-	"light": light,
-	"dark": dark
+	"Street": street,
+	"Satellite": satellite
 };
 L.control.layers(baseLayers).addTo(map);
 
 L.easyButton('fas fa-crosshairs', function(btn, map){
 	map.locate({setView: true, maxZoom: 18});
 }).addTo(map);
-
-var currentTime = new Date().getHours()
-
-if (7 <= currentTime && currentTime < 19){
-	map.removeLayer(dark);
-	map.addLayer(light);
-}
-else{
-	map.removeLayer(light);
-	map.addLayer(dark);
-}
 
 function onLocationFound(e) {
 
