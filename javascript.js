@@ -30,7 +30,7 @@ function onLocationFound(e) {
 	var latlong = e.latlng
 
 	L.marker(e.latlng).addTo(map)
-	.bindPopup("You are within " + radius + "m of this point.<br>" + latlong).Popup();
+	.bindPopup("You are within " + radius + "m of this point.<br>Latitude: " + e.latitude + "<br>Longitude: " + e.longitude).openPopup();
 
 	//L.circle(e.latlng, radius).addTo(map);
 
