@@ -19,9 +19,9 @@ var baseLayers = {
 };
 L.control.layers(baseLayers).addTo(map);
 
-L.easyButton('fas fa-crosshairs', function(btn, map){
+var easyButton = L.easyButton('fas fa-crosshairs', function(btn, map){
 	map.locate({setView: true, maxZoom: 18});
-}).addTo(map);
+}).addTo(map); //not passing latlng to geocoder/routing machine
 
 var control = L.Routing.control({
 	waypoints: [
@@ -40,6 +40,21 @@ function createButton(label, container) {
     return btn;
 }
 
+//trying to get easyButton to work
+/*easyButton.on('click', function(e) {
+
+				L.DomEvent.on(easyButton, 'click', function() {
+						control.spliceWaypoints(0, 1, e.latlng);
+						map.closePopup();
+				});
+
+    L.popup()
+        .setContent(container)
+        .setLatLng(e.latlng)
+        .openOn(map);
+});*/
+
+//creates buttons to pass address to routing machine
 map.on('click', function(e) {
 
     var container = L.DomUtil.create('div'),
@@ -61,16 +76,19 @@ map.on('click', function(e) {
         .openOn(map);
 });
 
+//part of trying to get easyButton to pass location
 /*function onLocationFound(e) {
 
 	var latlong = e.latlng
 
-	L.marker(e.latlng).addTo(map)
-	.bindPopup("Latitude: " + e.latitude + "<br>Longitude: " + e.longitude).openPopup();
+	function locateme() {
+			control.spliceWaypoints(0, 1, e.latlng);
+			L.marker(e.latlng).addTo(map);
+			map.closePopup();
+		}
+}*/
 
-}
-
-/*function onLocationError(e) {
+function onLocationError(e) {
 	alert(e.message);
 }
 
@@ -81,4 +99,4 @@ map.locate({
   maxZoom: 16,
   timeout: 15000,
   watch: false,
-});*/
+});
