@@ -54,28 +54,6 @@ function createButton(label, container) {
         .openOn(map);
 });*/
 
-//creates buttons to pass address to routing machine
-map.on('click', function(e) {
-
-    var container = L.DomUtil.create('div'),
-        startBtn = createButton('Start from this location', container),
-        destBtn = createButton('Go to this location', container);
-
-				L.DomEvent.on(startBtn, 'click', function() {
-						control.spliceWaypoints(0, 1, e.latlng);
-						map.closePopup();
-				});
-				L.DomEvent.on(destBtn, 'click', function() {
-		        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
-		        map.closePopup();
-		    });
-
-    L.popup()
-        .setContent(container)
-        .setLatLng(e.latlng)
-        .openOn(map);
-});
-
 //part of trying to get easyButton to pass location
 /*function onLocationFound(e) {
 
@@ -88,6 +66,30 @@ map.on('click', function(e) {
 		}
 }*/
 
+//creates buttons to pass address to routing machine
+map.on('click', function(e) {
+
+    var container = L.DomUtil.create('div'),
+        startBtn = createButton('Start from this location', container),
+        destBtn = createButton('End at this location', container);
+
+				L.DomEvent.on(startBtn, 'click', function() {
+						control.spliceWaypoints(0, 1, e.latlng);
+						map.closePopup();
+				});
+
+				L.DomEvent.on(destBtn, 'click', function() {
+		        control.spliceWaypoints(control.getWaypoints().length - 1, 1, e.latlng);
+		        map.closePopup();
+		    });
+
+    L.popup()
+        .setContent(container)
+        .setLatLng(e.latlng)
+        .openOn(map);
+});
+
+//locate user
 function onLocationError(e) {
 	alert(e.message);
 }
